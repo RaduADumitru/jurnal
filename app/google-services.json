@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "354490361357",
+    "firebase_url": "https://jurnal-93a37-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "jurnal-93a37",
+    "storage_bucket": "jurnal-93a37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354490361357:android:84c136b056579f68fa5744",
+        "android_client_info": {
+          "package_name": "com.example.proiect_jurnal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354490361357-7uf2m6hqqckqu59j9dcc8hi304r2rmf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiTzLgwRMaUs-warAtwWcxmeWuuqhnqLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354490361357-4hgrcv11p1s1se2a10j06u31mdc70sio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

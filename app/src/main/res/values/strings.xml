@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Proiect_jurnal</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_fragment">Home fragment</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="post">Post</string>
+</resources>
