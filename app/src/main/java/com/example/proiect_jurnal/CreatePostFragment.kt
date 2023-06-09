@@ -1,5 +1,7 @@
 package com.example.proiect_jurnal
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -24,6 +27,9 @@ class CreatePostFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_create_post, container, false)
 
+        return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Initialize Firebase Auth and Database
         auth = Firebase.auth
         database = Firebase.database.reference
@@ -31,6 +37,7 @@ class CreatePostFragment : Fragment() {
         val titleEditText = view.findViewById<EditText>(R.id.titleEditText)
         val contentEditText = view.findViewById<EditText>(R.id.contentEditText)
         val postButton = view.findViewById<Button>(R.id.postButton)
+        val motionLayout = view.findViewById<MotionLayout>(R.id.motionLayout)
 
         postButton.setOnClickListener {
             val title = titleEditText.text.toString()
@@ -48,17 +55,51 @@ class CreatePostFragment : Fragment() {
                 val post = Post(postId = postId, title = title, content = description, uid = userId)
 
                 if (postId != null) {
-                    database.child("posts").child(userId).child(postId).setValue(post)
-                    Toast.makeText(requireContext(), "Post created successfully", Toast.LENGTH_SHORT).show()
+                    database.child("posts").child(userId).child(postId).setValue(post).addOnSuccessListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Post created successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        motionLayout.transitionToEnd()
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error uploading post!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        motionLayout.transitionToEnd()
+                    }
                 }
-
             }
-                else {
+            else {
                 // Display an error message if any field is empty or user is not authenticated
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                motionLayout.transitionToEnd()
             }
         }
+        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(motionLayout: MotionLayout, startId: Int, endId: Int) {}
 
-        return view
+            override fun onTransitionChange(
+                motionLayout: MotionLayout,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {}
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+                if (currentId == R.id.end) {
+                    motionLayout.transitionToStart()
+                }
+            }
+
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {}
+        })
     }
 }

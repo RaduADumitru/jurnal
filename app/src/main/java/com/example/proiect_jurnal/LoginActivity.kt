@@ -1,5 +1,7 @@
 package com.example.proiect_jurnal
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +10,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -27,6 +30,17 @@ class LoginActivity : AppCompatActivity() {
 
         // Set click listeners for the buttons
         createAccountButton.setOnClickListener {
+            // Animation on tap
+            val animatePostButton1: ObjectAnimator = ObjectAnimator.ofFloat(createAccountButton, "translationY", 50f)
+            animatePostButton1.duration = 200
+
+            val animatePostButton2: ObjectAnimator = ObjectAnimator.ofFloat(createAccountButton, "translationY", 0f)
+            animatePostButton2.duration = 200
+
+            val animatorSet = AnimatorSet()
+            animatorSet.playSequentially(animatePostButton1, animatePostButton2)
+            animatorSet.start()
+
             val emailEditText = findViewById<EditText>(R.id.emailEditText)
             val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
 
@@ -36,11 +50,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
+                        // Animation on tap
+            val animatePostButton3: ObjectAnimator = ObjectAnimator.ofFloat(loginButton, "translationY", 50f)
+            animatePostButton3.duration = 200
+
+            val animatePostButton4: ObjectAnimator = ObjectAnimator.ofFloat(loginButton, "translationY", 0f)
+            animatePostButton4.duration = 200
+
+            val animatorSet = AnimatorSet()
+            animatorSet.playSequentially(animatePostButton3, animatePostButton4)
+            animatorSet.start()
+
             val emailEditText = findViewById<EditText>(R.id.emailEditText)
             val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
 
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
+
             signIn(email, password)
         }
     }
@@ -52,8 +78,8 @@ class LoginActivity : AppCompatActivity() {
             //reload()
         }
     }
-    fun createAccount(email : String, password : String) {
-        auth.createUserWithEmailAndPassword(email, password)
+    fun createAccount(email : String?, password : String?) {
+        if(!email.isNullOrEmpty() && !password.isNullOrEmpty()) {auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
@@ -70,27 +96,44 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                     //updateUI(null)
                 }
-            }
+            }}
+        else {                    Toast.makeText(
+            baseContext,
+            "Couldn't create account.",
+            Toast.LENGTH_SHORT,
+        ).show()}
+
     }
-    public fun signIn(email: String, password : String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    //updateUI(null)
+    public fun signIn(email: String?, password : String?) {
+        if(!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success")
+                        val user = auth.currentUser
+                        updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        //updateUI(null)
+                    }
                 }
-            }
+        }
+        else {
+            // If sign in fails, display a message to the user.
+            Toast.makeText(
+                baseContext,
+                "Authentication failed.",
+                Toast.LENGTH_SHORT,
+            ).show()
+            //updateUI(null)
+        }
     }
     public fun getCurrentUser() {
         val user = Firebase.auth.currentUser
