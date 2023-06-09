@@ -3,6 +3,7 @@ package com.example.proiect_jurnal
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 
 class PostsAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostsAdapter.ViewHolder>(),
     Filterable {
@@ -48,6 +51,7 @@ class PostsAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostsAd
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_text_post, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -58,9 +62,30 @@ class PostsAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostsAd
         holder.contentTextView.text = textPost.content
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnLongClickListener {
+        //TODO: CRASH
+        init {
+            itemView.setOnLongClickListener(this)
+        }
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val contentTextView: TextView = itemView.findViewById(R.id.contentTextView)
+        override fun onLongClick(view: View?): Boolean {
+            val titleTextView = itemView.findViewById<TextView>(R.id.titleTextView)
+            val contentTextView = itemView.findViewById<TextView>(R.id.contentTextView)
+            val titleText = titleTextView.text.toString()
+            val contentText = contentTextView.text.toString()
+            val shareText = "$titleText\n\n$contentText"
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareText)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            itemView.context.startActivity(shareIntent)
+            return true
+        }
+
     }
 
     private class DiffCallback : DiffUtil.ItemCallback<Post>() {

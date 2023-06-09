@@ -89,10 +89,6 @@ class HomeFragment : Fragment() {
         super.onViewStateRestored(savedInstanceState)
     }
 
-    private fun getDummyTextPosts(): Collection<Post> {
-        return listOf<Post>(Post(postId = "1", title = "Post1", content = "Desc1", uid = ""), Post(postId = "2", title = "Post2", content = "Desc2", uid = ""))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
