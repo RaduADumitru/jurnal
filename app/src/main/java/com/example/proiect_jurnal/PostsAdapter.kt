@@ -31,7 +31,8 @@ class PostsAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostsAd
                     val resultList = ArrayList<Post>()
                     for (row in posts) {
                         if (row.title?.lowercase(Locale.ROOT)!!.contains(charSearch.lowercase(Locale.ROOT))
-                        ) {
+                            || row.content?.lowercase(Locale.ROOT)!!.contains(charSearch.lowercase(Locale.ROOT))
+                            ) {
                             resultList.add(row)
                         }
                     }
