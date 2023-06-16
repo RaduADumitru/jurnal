@@ -137,7 +137,7 @@ class CreatePostFragment : Fragment() {
             }
             else {
                 // Display an error message if any field is empty or user is not authenticated
-                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please fill in post title", Toast.LENGTH_SHORT).show()
                 motionLayout.transitionToEnd()
             }
         }
