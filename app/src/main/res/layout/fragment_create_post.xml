@@ -16,7 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/content" />
-
+    <!--Button for choosing image from gallery-->
+    <Button
+        android:id="@+id/chooseImageButton"
+        android:text="@string/choose_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <androidx.constraintlayout.motion.widget.MotionLayout xmlns:motion="http://schemas.android.com/apk/res-auto"
         android:id="@+id/motionLayout"
         android:layout_width="match_parent"

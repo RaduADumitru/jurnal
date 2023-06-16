@@ -68,5 +68,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha10"
 
+    implementation 'com.squareup.picasso:picasso:2.8'
+
 
 }
